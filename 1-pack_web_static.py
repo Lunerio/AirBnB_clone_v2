@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" 
+"""
 This module uses Fabric to execute
 Commands locally
 """
