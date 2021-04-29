@@ -2,7 +2,7 @@
 """ This module contains a Flask instance
 """
 
-from flask import Flask
+from flask import Flask, render_template
 app = Flask(__name__)
 
 
@@ -43,6 +43,14 @@ def fifth_task(n):
     It also takes a variable
     """
     return '%i is a number' % n
+
+
+@app.route('/number_template/<int:n>', strict_slashes=False)
+def sixth_task(n):
+    """ This function returns a rendered web
+    if n is an int.
+    """
+    return render_template('5-number.html', n=n)
 
 
 if __name__ == '__main__':
