@@ -25,7 +25,7 @@ def third_task(text):
     """ This function returns a string.
     It also takes a variable
     """
-    return 'C ' + text.replace('_', ' ')
+    return 'C %s' % text.replace('_', ' ')
 
 
 if __name__ == '__main__':
