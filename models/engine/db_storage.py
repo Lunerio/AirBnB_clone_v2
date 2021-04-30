@@ -70,10 +70,10 @@ class DBStorage:
         Session = scoped_session(session_factory)
         self.__session = Session()
 
-    def close(self)
+    def close(self):
         """ Dispose the scoped session.
         First call self.__session.close() in order to release
         any connection owned by self.__session and then
         discards the session itself.
         """
-        self.__session.remove()
+        self.__session.close()

@@ -12,13 +12,17 @@ def state_list():
     """ This function loads the list of states
     and creates the web page
     """
-    states = storage.all()
-    return render_template('7-states_list.html', states=states)
+    states = storage.all('State')
+    return render_template('7-states_list.html', states=states.value())
 
 
 @app.teardown_appcontext
-def close_session():
+def close_session(self):
     """ This function closes a session
     with the storage.close() method
     """
     storage.close()
+
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0')
