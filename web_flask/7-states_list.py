@@ -12,7 +12,9 @@ def state_list():
     """ This function loads the list of states
     and creates the web page
     """
-    
+    states = storage.all()
+    return render_template('7-states_list.html', states=states)
+
 
 @app.teardown_appcontext
 def close_session():
