@@ -13,7 +13,7 @@ def state_list():
     and creates the web page
     """
     states = storage.all('State')
-    return render_template('7-states_list.html', states=states.value())
+    return render_template('7-states_list.html', states=states.values())
 
 
 @app.teardown_appcontext
