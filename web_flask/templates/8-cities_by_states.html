@@ -10,7 +10,7 @@
 	  <LI>
 	    {{ state.id|e }}: <B>{{ state.name|e }}</B>
 	    <UL>	      
-	      {% for city in cities|sort(attribute='name') %}
+	      {%+ for city in cities|sort(attribute='name') %}
 	      {% if city.state_id == state.id %}
 	      <LI>{{ city.id|e }}: <B>{{ city.name|e }}</B> </LI>
 	      {% endif %}
