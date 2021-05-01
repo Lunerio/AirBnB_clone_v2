@@ -19,7 +19,7 @@ class State(BaseModel, Base):
         @property
         def cities(self):
             """getter function for cities"""
-            cities_list = models.storage.all(City)
+            cities_list = models.storage.all('City')
             new_list = []
             for key, value in cities_list.items():
                 if value.state_id == self.id:
