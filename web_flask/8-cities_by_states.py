@@ -13,8 +13,7 @@ def state_list():
     and creates the web page
     """
     states = storage.all('State')
-    cities = storage.all('City')
-    return render_template('8-cities_by_states.html', states=states.values(), cities=cities.values())
+    return render_template('8-cities_by_states.html', states=states.values())
 
 
 @app.teardown_appcontext
