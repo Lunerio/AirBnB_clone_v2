@@ -13,7 +13,7 @@ class FileStorage:
         if cls is not None:
             obj_list = {}
             for obj, value in FileStorage.__objects.items():
-                if type(value).__name__ == cls.__name__:
+                if value.name == cls.__name__:
                     obj_list[obj] = value
             return obj_list
         else:
