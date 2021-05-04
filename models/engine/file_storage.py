@@ -19,7 +19,6 @@ class FileStorage:
                     cls_dict[k] = v
             return cls_dict
         return self.__objects
-
         # if cls is not None:
             # obj_list = {}
             # for obj, value in FileStorage.__objects.items():
