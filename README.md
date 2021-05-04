@@ -1,136 +1,146 @@
-# AirBnB clone - MySQL
+# HBnB - Holberton School AirBnB clone
 
-## Learning Objectives
+<p align="center">
+    <img src="https://i.imgur.com/JOhaZ5m.png">
+</p>
 
-- What is Unit testing and how to implement it in a large project
-- What is *args and how to use it
-- What is **kwargs and how to use it
-- How to handle named arguments in a function
-- How to create a MySQL database
-- How to create a MySQL user and grant it privileges
-- What ORM means
-- How to map a Python Class to a MySQL table
-- How to handle 2 different storage engines with the same codebase
-- How to use environment variables
+# Description
 
-## Background Context
+The goal of the HBnB project is to deploy a simple clone of AirBnB on our own server.
+This project is built over 4 months as part of the curriculum of the first year at [Holberton School](https://www.holbertonschool.com/).
 
-Environment variables for this project!
+At the end of the 4 months, the project will have:
+- A command interpreter to manipulate data without a visual interface, like in a Shell (perfect for development and debugging)
+- A website (the front-end) that shows the final product to everybody: static and dynamic
+- A database or files that store data (data = objects)
+- An API that provides a communication interface between the front-end and the data (retrieve, create, delete, update them)
 
-- HBNB_ENV: running environment. It can be dev or test for the moment (production soon!)
-- HBNB_MYSQL_USER: the username of your MySQL
-- HBNB_MYSQL_PWD: the password of your MySQL
-- HBNB_MYSQL_HOST: the hostname of your MySQL
-- HBNB_MYSQL_DB: the database name of your MySQL
-- HBNB_TYPE_STORAGE: the type of storage used. It can be file (using FileStorage) or db (using DBStorage)
+Here's a simple diagram of the entire stack of the final product:
 
-## General Use
+<p>
+    <img src="https://i.imgur.com/sQ4tQRX.png">
+</p>
 
-### Commands
-    * create - Creates an instance based on given class
+# The Web Framework
 
-    * destroy - Destroys an object based on class and UUID
+Flask is the web framework used for the HBnB project.
+In the [web_flask](./web_flask) are all the python scripts used to start a Flask app.
 
-    * show - Shows an object based on class and UUID
+Usage:
 
-    * all - Shows all objects the program has access to, or all objects of a given class
-
-    * update - Updates existing attributes an object based on class name and UUID
-
-    * quit - Exits the program (EOF will as well)
-
-
-##### Alternative Syntax
-Users are able to issue a number of console command using an alternative syntax:
-
-	Usage: <class_name>.<command>([<id>[name_arg value_arg]|[kwargs]])
-Advanced syntax is implemented for the following commands:
-
-    * all - Shows all objects the program has access to, or all objects of a given class
-
-	* count - Return number of object instances by class
-
-    * show - Shows an object based on class and UUID
-
-	* destroy - Destroys an object based on class and UUID
-
-    * update - Updates existing attributes an object based on class name and UUID
-
-<br>
-<br>
-<h2> Examples </h2>
-
-<h3>Primary Command Syntax</h3>
-
-###### Example 0: Create an object
-Usage: create <class_name>
+- Dump data in the MySQL database with [10-dump.sql](./10-dump.sql) or [100-dump.sql](./100-dump.sql), for scripts [10-hbnb_filters.py](.10-hbnb_filters.py) and [100-hbnb.py](./100-hbnb.py) respectively:
 ```
-(hbnb) create BaseModel
-```
-```
-(hbnb) create BaseModel
-3aa5babc-efb6-4041-bfe9-3cc9727588f8
-(hbnb)   
-```
-###### Example 1: Show an object
-Usage: show <class_name> <_id>
-
-```
-(hbnb) show BaseModel 3aa5babc-efb6-4041-bfe9-3cc9727588f8
-[BaseModel] (3aa5babc-efb6-4041-bfe9-3cc9727588f8) {'id': '3aa5babc-efb6-4041-bfe9-3cc9727588f8', 'created_at': datetime.datetime(2020, 2, 18, 14, 21, 12, 96959), 
-'updated_at': datetime.datetime(2020, 2, 18, 14, 21, 12, 96971)}
-(hbnb)  
-```
-###### Example 2: Destroy an object
-Usage: destroy <class_name> <_id>
-```
-(hbnb) destroy BaseModel 3aa5babc-efb6-4041-bfe9-3cc9727588f8
-(hbnb) show BaseModel 3aa5babc-efb6-4041-bfe9-3cc9727588f8
-** no instance found **
-(hbnb)   
-```
-###### Example 3: Update an object
-Usage: update <class_name> <_id>
-```
-(hbnb) update BaseModel b405fc64-9724-498f-b405-e4071c3d857f first_name "person"
-(hbnb) show BaseModel b405fc64-9724-498f-b405-e4071c3d857f
-[BaseModel] (b405fc64-9724-498f-b405-e4071c3d857f) {'id': 'b405fc64-9724-498f-b405-e4071c3d857f', 'created_at': datetime.datetime(2020, 2, 18, 14, 33, 45, 729889), 
-'updated_at': datetime.datetime(2020, 2, 18, 14, 33, 45, 729907), 'first_name': 'person'}
-(hbnb)
-```
-<h3>Alternative Syntax</h3>
-
-###### Example 0: Show all User objects
-Usage: <class_name>.all()
-```
-(hbnb) User.all()
-["[User] (99f45908-1d17-46d1-9dd2-b7571128115b) {'updated_at': datetime.datetime(2020, 2, 19, 21, 47, 34, 92071), 'id': '99f45908-1d17-46d1-9dd2-b7571128115b', 'created_at': datetime.datetime(2020, 2, 19, 21, 47, 34, 92056)}", "[User] (98bea5de-9cb0-4d78-8a9d-c4de03521c30) {'updated_at': datetime.datetime(2020, 2, 19, 21, 47, 29, 134362), 'id': '98bea5de-9cb0-4d78-8a9d-c4de03521c30', 'created_at': datetime.datetime(2020, 2, 19, 21, 47, 29, 134343)}"]
+cat 100-dump.sql | mysql -uroot -p
 ```
 
-###### Example 1: Destroy a User
-Usage: <class_name>.destroy(<_id>)
+- Set the environment variables and execute the Flask scripts like this:
 ```
-(hbnb) User.destroy("99f45908-1d17-46d1-9dd2-b7571128115b")
-(hbnb)
-(hbnb) User.all()
-(hbnb) ["[User] (98bea5de-9cb0-4d78-8a9d-c4de03521c30) {'updated_at': datetime.datetime(2020, 2, 19, 21, 47, 29, 134362), 'id': '98bea5de-9cb0-4d78-8a9d-c4de03521c30', 'created_at': datetime.datetime(2020, 2, 19, 21, 47, 29, 134343)}"]
+HBNB_MYSQL_USER=hbnb_dev HBNB_MYSQL_PWD=hbnb_dev_pwd HBNB_MYSQL_HOST=localhost HBNB_MYSQL_DB=hbnb_dev_db HBNB_TYPE_STORAGE=db python3 -m web_flask.100-hbnb
 ```
-###### Example 2: Update User (by attribute)
-Usage: <class_name>.update(<_id>, <attribute_name>, <attribute_value>)
-```
-(hbnb) User.update("98bea5de-9cb0-4d78-8a9d-c4de03521c30", name "Todd the Toad")
-(hbnb)
-(hbnb) User.all()
-(hbnb) ["[User] (98bea5de-9cb0-4d78-8a9d-c4de03521c30) {'updated_at': datetime.datetime(2020, 2, 19, 21, 47, 29, 134362), 'id': '98bea5de-9cb0-4d78-8a9d-c4de03521c30', 'name': 'Todd the Toad', 'created_at': datetime.datetime(2020, 2, 19, 21, 47, 29, 134343)}"]
-```
-###### Example 3: Update User (by dictionary)
-Usage: <class_name>.update(<_id>, <dictionary>)
-```
-(hbnb) User.update("98bea5de-9cb0-4d78-8a9d-c4de03521c30", {'name': 'Fred the Frog', 'age': 9})
-(hbnb)
-(hbnb) User.all()
-(hbnb) ["[User] (98bea5de-9cb0-4d78-8a9d-c4de03521c30) {'updated_at': datetime.datetime(2020, 2, 19, 21, 47, 29, 134362), 'name': 'Fred the Frog', 'age': 9, 'id': '98bea5de-9cb0-4d78-8a9d-c4de03521c30', 'created_at': datetime.datetime(2020, 2, 19, 21, 47, 29, 134343)}"]
-```
-<br>
 
-## Authors: Matías Pirez and Hugo Gomez.
+- In the browser, type:
+```
+http://0.0.0.0:5000/hbnb
+```
+You should see the rendered web page!
+
+# The Storage system
+
+HBnB has two storage types: a File Storage and a DataBase storage.
+The folder [engine](./models/engine/) contains those storage types definitions.
+Here is a representation of all the data:
+
+<p>
+    <img src="https://i.imgur.com/eNZMRuS.jpg">
+</p>
+
+## File Storage
+
+The File Storage system manages the serialization and deserialization of all the data, following a JSON format.
+
+A FileStorage class is defined in [file_storage.py](./models/engine/file_storage.py) with methods to follow this flow:
+```<object> -> to_dict() -> <dictionary> -> JSON dump -> <json string> -> FILE -> <json string> -> JSON load -> <dictionary> -> <object>```
+
+If the environment variable **HBNB_TYPE_STORAGE** is set to 'file', the [__init__.py](./models/__init__.py) file instantiates the FileStorage class called **storage**, followed by a call to the method reload() on that instance.
+This allows the storage to be reloaded automatically at initialization, which recovers the serialized data.
+
+## DataBase Storage
+
+The DataBase Storage system manages communication to and from a MySQL server, where data will be stored in a database depending on the **HBNB_MYSQL_DB** variable value.
+
+A DBStorage class is defined in [db_storage.py](./models/engine/db_storage.py) and uses the SQAlchemy module to interact with MySQL.
+
+If the environment variable **HBNB_TYPE_STORAGE** is set to 'db', the [__init__.py](./models/__init__.py) file instantiates the DBStorage class called **storage**, followed by a call to the method reload() on that instance.
+This allows the storage to be reloaded automatically at initialization, which recovers the data from the defined database.
+
+To run any script with the DataBase storage, declare those environment variables:
+```
+HBNB_MYSQL_USER=hbnb_dev
+HBNB_MYSQL_PWD=hbnb_dev_pwd
+HBNB_MYSQL_HOST=localhost
+HBNB_MYSQL_DB=hbnb_dev_db
+HBNB_TYPE_STORAGE=db
+```
+
+# The Console
+
+This is the console /command interpreter for the Holberton Airbnb clone project. The console can be used to store objects in and retrieve objects from a JSON.
+
+### Supported classes:
+* BaseModel
+* User
+* State
+* City
+* Amenity
+* Place
+* Review
+
+### Commands:
+* create - create an object
+* show - show an object (based on id)
+* destroy - destroy an object
+* all - show all objects, of one type or all types
+* quit/EOF - quit the console
+* help - see descriptions of commands
+
+To start, navigate to the project folder and enter `./console.py` in the shell.
+
+#### Create
+`create <class name>`
+Ex:
+`create BaseModel`
+
+#### Show
+`show <class name> <object id>`
+Ex:
+`show User my_id`
+
+#### Destroy
+`destroy <class name> <object id>`
+Ex:
+`destroy Place my_place_id`
+
+#### All
+`all` or `all <class name>`
+Ex:
+`all` or `all State`
+
+#### Quit
+`quit` or `EOF`
+
+#### Help
+`help` or `help <command>`
+Ex:
+`help` or `help quit`
+
+Additionally, the console supports `<class name>.<command>(<parameters>)` syntax.
+Ex:
+`City.show(my_city_id)`
+
+# Tests
+
+All unittests can be found in the [tests](./tests) directory.
+
+# Author
+
+Laura Roudge

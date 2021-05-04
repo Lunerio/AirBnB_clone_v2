@@ -1,24 +1,17 @@
 #!/usr/bin/python3
-"""
-This module uses Fabric to execute
-Commands locally
-"""
+"""Generates a .tgz archive from the
+contents of the web_static folder"""
 
-from fabric.api import local
+from fabric.operations import local
 from datetime import datetime
 
 
 def do_pack():
-    """ Create directory and compress file
-        as a given name
-    """
-    time_test = datetime.now().strftime("%Y%m%d%H%M%S")
-    file_name = "versions/web_static_" + time_test + ".tgz"
-    command1 = "mkdir -p versions"
-    command2 = "tar -czvf " + file_name + " web_static"
-    local(command1)
-    com = local(command2)
-    if com.return_code == 0:
-        return (file_name)
-    else:
+    """Function to compress files"""
+    local("mkdir -p versions")
+    result = local("tar -cvzf versions/web_static_{}.tgz web_static"
+                   .format(datetime.strftime(datetime.now(), "%Y%m%d%H%M%S")),
+                   capture=True)
+    if result.failed:
         return None
+    return result
