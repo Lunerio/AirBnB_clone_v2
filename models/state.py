@@ -14,14 +14,12 @@ class State(BaseModel, Base):
         name = Column(String(128), nullable=False)
         cities = relationship('City', cascade="all, delete", backref="state")
     else:
-        name = ""
-
         @property
         def cities(self):
             """getter function for cities"""
             cities_list = models.storage.all('City')
             new_list = []
-            for key, value in cities_list.items():
+            for value in cities_list.values():
                 if value.state_id == self.id:
                     new_list.append(value)
             return new_list
