@@ -5,7 +5,7 @@
     </HEAD>
     <BODY>
       {% if id is none %}
-      Hh1>States</H1>
+      <H1>States</H1>
       <UL>
 	{% for state in states|sort(attribute='name') %}
 	<LI>{{ state.id|e }}: <B>{{ state.name|e }}</B></LI>
